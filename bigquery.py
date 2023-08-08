@@ -33,6 +33,7 @@ def _create_auth_headers(api_secret_key):
 def bigquery_resource(month=last_month, year=year):
     """
         Loads all the GA events data for the period of 1 month
+        If the month is not explicitly passed, then it loads the data for the previous month
     """
     # service account credentials for the bigquery project
     # credentials are read from .dlt/secrets.toml
@@ -46,9 +47,10 @@ def bigquery_resource(month=last_month, year=year):
     credentials = service_account.Credentials.from_service_account_info(service_account_info)
     client = bigquery.Client(credentials=credentials)
 
-    # get 1 month google analytics events data from bigquery
+    # In 'project_name.dataset_name.events_*', replace 'project_name' with the name of your bigquery project,
+    # 'dataset_name' with the name of the google analytics dataset
     query_str = f"""
-        select * from `dlthub-analytics.analytics_345886522.events_*` 
+        select * from `project_name.dataset_name.events_*` 
         where _table_suffix between format_date('%Y%m%d',cast('{year}-{month}-1' as date)) 
                                 and format_date('%Y%m%d',date_add(cast('{year}-{month}-1' as date), interval 1 month))
     """
