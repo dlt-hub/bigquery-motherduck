@@ -62,5 +62,5 @@ See [here](https://dlthub.com/docs/walkthroughs/deploy-a-pipeline/deploy-with-gi
 
 This pipeline was created using the BigQuery -> DuckDB pipeline: see [here](https://github.com/dlt-hub/bigquery-motherduck/tree/main/bigquery_duckdb) for full details. 
   
-To create a BigQuery -> MotherDuck pipeline, follow all the steps above, but instead of passing 'duckdb' as a destination, pass 'motherduck' as a destination. Also add MotherDuck credentials inside `.dlt/secrets.toml` as above.
+To create a BigQuery -> MotherDuck pipeline, follow all the steps detailed in the link, but instead of passing 'duckdb' as a destination, pass 'motherduck' as a destination. Also add MotherDuck credentials inside `.dlt/secrets.toml` as above.
   
