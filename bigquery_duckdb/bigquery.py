@@ -42,7 +42,7 @@ def bigquery_resource(month=last_month, year=year):
     query_str = f"""
         select * from `dlthub-analytics.analytics_345886522.events_*` 
         where _table_suffix between format_date('%Y%m%d',cast('{year}-{month}-1' as date)) 
-                                and format_date('%Y%m%d',date_add(cast('{year}-{month}-1' as date), interval 1 day))
+                                and format_date('%Y%m%d',date_add(cast('{year}-{month}-1' as date), interval 1 month))
     """
 
     print('loading rows')
