@@ -6,7 +6,7 @@ GitHub repo accompanying [this](link-to-blog) blog. This repo contains code for 
 
 `dlt` has an existing [Google Analytics 4 pipeline](https://dlthub.com/docs/dlt-ecosystem/verified-sources/google_analytics) that can load data directly from GA4.  
   
-In this demo, however, I will load GA4 data from BigQuery instead by writing a a BigQuery pipeline from scratch.  
+In this demo, however, I will load GA4 data from BigQuery instead by writing a BigQuery pipeline from scratch.  
 
 **Pre-requisites:** 
 1. GCP service account with Google Analytics and BigQuery enabled
