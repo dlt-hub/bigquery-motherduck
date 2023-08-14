@@ -2,16 +2,18 @@
 
 GitHub repo accompanying [this](link-to-blog) blog. This repo contains code for a `dlt` pipeline that loads data from BigQuery to DuckDB, and a dbt package that performs transformations on the loaded data and writes the transformed data to the same database.  
   
-**Background**: Google Analytics 4 (GA4) only makes it possible to export data to BigQuery. This means that if you want to combine your GA4 data with other data and do your own analytics on top of it, you will need to create a data pipeline that can either source data directly from GA4 or source data from BigQuery. 
+**Background: Why a BigQuery pipeline**: Google Analytics 4 (GA4) only makes it possible to export data to BigQuery. This means that if you want to combine your GA4 data with other data and do your own analytics on top of it, you will need to create a data pipeline that can either source data directly from GA4 or source data from BigQuery. 
 
 `dlt` has an existing [Google Analytics 4 pipeline](https://dlthub.com/docs/dlt-ecosystem/verified-sources/google_analytics) that can load data directly from GA4.  
   
 In this demo, however, I will load GA4 data from BigQuery instead by writing a BigQuery pipeline from scratch.  
 
 **Pre-requisites:** 
-1. GCP service account with Google Analytics and BigQuery enabled
-2. GA4 data exported to BigQuery
-3. BigQuery service account credentials
+1. GCP service account with BigQuery enabled
+2. BigQuery service account credentials
+3. (Optional) The existing code is written to load GA4 events data for the specified month from BigQuery, but it can easily be modified to load any other data from BigQuery. However, if you wish to load GA4 events data, then you would also need:
+    1. GCP service account with Google Analytics 4 enabled
+    2. GA4 data exported to BigQuery
 
 ## How to run this pipeline
 
@@ -26,7 +28,7 @@ In this demo, however, I will load GA4 data from BigQuery instead by writing a B
     location = "location" # please set me up!
     ```
 3. Modify `bigquery.py`:  
-   Inside the resource function `bigquery_resource`, modify the query string by replacing `"project_name.dataset_name.events_*"` with the name of your dataset in BigQuery.
+   The function `bigquery_resource` requests data from the BigQuery API and returns the output of the following query:
    ```
        query_str = f"""
         select * from `project_name.dataset_name.events_*` 
@@ -34,6 +36,9 @@ In this demo, however, I will load GA4 data from BigQuery instead by writing a B
                                 and format_date('%Y%m%d',date_add(cast('{year}-{month}-1' as date), interval 1 month))
     """
    ```
+   GA4 events for the date `dd-mm-yyyy` are stored in the table `project_name.dataset_name.events_yyyymmdd`, and the query above returns GA4 events data for every day of the specified month.
+
+   To request any other data from BigQuery, just modify the query above for your specific data (and make corresponding adjustments to the dbt models). 
    
 4. Install requirements:  
 ```pip install -r requirements.txt```
@@ -83,9 +88,10 @@ This will create a file called `bigquery_pipeline.duckdb` in your working direct
         client = bigquery.Client(credentials=credentials)
     ```  
 
-    Using `dlt.secrets.get` you can fetch the credentials from `.dlt/secrets.toml`.  
+    Using `dlt.secrets.get` you can fetch the credentials that you added in `.dlt/secrets.toml`.  
 
-    2. Query the BigQuery API to get GA4 data for a period of 1 month
+    2. Query the BigQuery API:
+    Using a query string, specify which data you want to load from BigQuery and have the function return the rows as the output.
     ```
         query_str = f"""
             select * from <ga_events_table>
