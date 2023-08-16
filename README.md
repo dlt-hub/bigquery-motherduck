@@ -1,12 +1,22 @@
 # BigQuery -> MotherDuck data pipeline
 
-GitHub repo accompanying [this](link-to-blog) blog. This repo contains code for a `dlt` pipeline that loads data from BigQuery to MotherDuck, and a dbt package that performs transformations on the loaded data and writes the transformed data to the same database. 
+GitHub repo accompanying [this](https://dlthub.com/docs/blog/dlt-motherduck-demo) blog. This repo contains code for a `dlt` pipeline that loads data from BigQuery to MotherDuck, and a dbt package that performs transformations on the loaded data and writes the transformed data to the same database. 
   
 **Background: Why a BigQuery pipeline**: Google Analytics 4 (GA4) only makes it possible to export data to BigQuery. This means that if you want to combine your GA4 data with other data and do your own analytics on top of it, you will need to create a data pipeline that can either source data directly from GA4 or source data from BigQuery. 
 
 `dlt` has an existing [Google Analytics 4 pipeline](https://dlthub.com/docs/dlt-ecosystem/verified-sources/google_analytics) that can load data directly from GA4.  
   
-In this demo, however, I will load GA4 data from BigQuery instead by writing a BigQuery pipeline from scratch.  
+In this demo, however, I will load GA4 data from BigQuery instead by writing a BigQuery pipeline from scratch. I show what this process looks like in this video:  
+
+<div>
+    <a href="https://www.loom.com/share/2bf3a187edb54c3cae8f32b5430dd0cd">
+      <p>Create and deploy a BigQuery pipeline from scratch - Watch Video</p>
+    </a>
+    <a href="https://www.loom.com/share/2bf3a187edb54c3cae8f32b5430dd0cd">
+      <img style="max-width:100%;" src="https://cdn.loom.com/sessions/thumbnails/2bf3a187edb54c3cae8f32b5430dd0cd-1691776334922-with-play.gif">
+    </a>
+  </div>
+
 
 **Pre-requisites:** 
 1. GCP service account with BigQuery enabled
